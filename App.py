@@ -8,5 +8,11 @@ def main():
         st.subheader(":gear: Settings")
         url = st.text_input(":link: Enter URL :")
 
+    prompt = st.chat_input("type your prompt here...")
+    with st.chat_message("Human"): 
+        pass
+    with st.chat_message("AI"): 
+        pass
+
 if __name__ == "__main__": 
     main()
