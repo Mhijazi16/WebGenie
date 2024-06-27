@@ -1,5 +1,8 @@
 import streamlit as st
 
+def get_response(prompt):
+    pass
+
 def main():
     st.set_page_config(page_icon=":genie:",page_title="WebGenie")
     st.title("WebGenie :genie:")
@@ -10,9 +13,9 @@ def main():
 
     prompt = st.chat_input("type your prompt here...")
     with st.chat_message("Human"): 
-        pass
+        st.write(prompt)
     with st.chat_message("AI"): 
-        pass
+        st.write(get_response(prompt))
 
 if __name__ == "__main__": 
     main()
