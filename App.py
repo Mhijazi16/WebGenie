@@ -10,7 +10,9 @@ def main():
 
     if "chat_history" not in st.session_state: 
         st.session_state.chat_history = [
-            AIMessage("Hello Am the WebGenie :genie: how can I help you !!")]
+            HumanMessage("Hello what are you ?"),
+            AIMessage("Hello Am the WebGenie :genie: how can I help you !!"),
+        ]
 
     with st.sidebar: 
         st.subheader(":gear: Settings")
@@ -21,10 +23,14 @@ def main():
         st.session_state.chat_history.append(HumanMessage(prompt))
         st.session_state.chat_history.append(AIMessage(get_response(prompt)))
 
-    with st.chat_message("Human"): 
-        st.write(prompt)
-    with st.chat_message("AI"): 
-        st.write(get_response(prompt))
+    for message in st.session_state.chat_history: 
+        if isinstance(message,AIMessage): 
+            with st.chat_message("AI"): 
+                st.write(message.content)
+        elif isinstance(message,HumanMessage): 
+            with st.chat_message("Human"): 
+                st.write(message.content)
+
 
     with st.sidebar: 
         st.write(st.session_state.chat_history)
