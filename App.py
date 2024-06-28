@@ -11,7 +11,7 @@ def main():
     if "chat_history" not in st.session_state: 
         st.session_state.chat_history = [
             HumanMessage("Hello what are you ?"),
-            AIMessage("Hello Am the WebGenie :genie: how can I help you !!"),
+            AIMessage("Hello Am the WebGenie how can I help you!!"),
         ]
 
     with st.sidebar: 
@@ -19,7 +19,7 @@ def main():
         url = st.text_input(":link: Enter URL :")
 
     prompt = st.chat_input("type your prompt here...")
-    if prompt is not None or prompt != "": 
+    if prompt != None and prompt != "": 
         st.session_state.chat_history.append(HumanMessage(prompt))
         st.session_state.chat_history.append(AIMessage(get_response(prompt)))
 
