@@ -17,6 +17,10 @@ def main():
         url = st.text_input(":link: Enter URL :")
 
     prompt = st.chat_input("type your prompt here...")
+    if prompt is not None or prompt != "": 
+        st.session_state.chat_history.append(HumanMessage(prompt))
+        st.session_state.chat_history.append(AIMessage(get_response(prompt)))
+
     with st.chat_message("Human"): 
         st.write(prompt)
     with st.chat_message("AI"): 
