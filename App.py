@@ -18,22 +18,25 @@ def main():
         st.subheader(":gear: Settings")
         url = st.text_input(":link: Enter URL :")
 
-    prompt = st.chat_input("type your prompt here...")
-    if prompt != None and prompt != "": 
-        st.session_state.chat_history.append(HumanMessage(prompt))
-        st.session_state.chat_history.append(AIMessage(get_response(prompt)))
+    if url == None or url == "": 
+        st.info(":warning: Please provide a URL to Enable chatting.")
+    else : 
+        prompt = st.chat_input("type your prompt here...")
+        if prompt != None and prompt != "": 
+            st.session_state.chat_history.append(HumanMessage(prompt))
+            st.session_state.chat_history.append(AIMessage(get_response(prompt,url)))
 
-    for message in st.session_state.chat_history: 
-        if isinstance(message,AIMessage): 
-            with st.chat_message("AI"): 
-                st.write(message.content)
-        elif isinstance(message,HumanMessage): 
-            with st.chat_message("Human"): 
-                st.write(message.content)
+        for message in st.session_state.chat_history: 
+            if isinstance(message,AIMessage): 
+                with st.chat_message("AI"): 
+                    st.write(message.content)
+            elif isinstance(message,HumanMessage): 
+                with st.chat_message("Human"): 
+                    st.write(message.content)
 
 
-    with st.sidebar: 
-        st.write(st.session_state.chat_history)
+        with st.sidebar: 
+            st.write(docs)
 
 if __name__ == "__main__": 
     main()
