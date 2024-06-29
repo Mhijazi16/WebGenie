@@ -3,6 +3,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import ollama
+from langchain.vectorstores import FAISS
 
 class OllamaEmbeddingWrapper:
     def embed_documents(self, texts):
@@ -10,7 +11,7 @@ class OllamaEmbeddingWrapper:
     def __call__(self, text):
         return ollama.embeddings(model="nomic-embed-text", prompt=text)['embedding']
 
-def get_vectorstore(url): 
+def get_retriever(url): 
     # scraping the url to text
     web_loader = WebBaseLoader(url)
     document = web_loader.load()
@@ -19,7 +20,11 @@ def get_vectorstore(url):
     splitter = RecursiveCharacterTextSplitter()
     chunks = splitter.split_documents(document)
 
-    return chunks 
+    #creating vectorstore 
+    store = FAISS.from_texts(chunks,embedding=OllamaEmbeddingWrapper())
+
+    # returning a retriever 
+    return store.as_retriever() 
 
 def get_response(prompt):
     return "Yes I agree"
