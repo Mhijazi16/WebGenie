@@ -1,5 +1,11 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
+from langchain_community.document_loaders import WebBaseLoader
+
+def get_vectorstore(url): 
+    web_loader = WebBaseLoader(url)
+    document = web_loader.load()
+    return document
 
 def get_response(prompt):
     return "Yes I agree"
@@ -21,6 +27,7 @@ def main():
     if url == None or url == "": 
         st.info(":warning: Please provide a URL to Enable chatting.")
     else : 
+        docs = get_vectorstore(url)
         prompt = st.chat_input("type your prompt here...")
         if prompt != None and prompt != "": 
             st.session_state.chat_history.append(HumanMessage(prompt))
