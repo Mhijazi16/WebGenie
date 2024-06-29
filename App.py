@@ -2,6 +2,13 @@ import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+import ollama
+
+class OllamaEmbeddingWrapper:
+    def embed_documents(self, texts):
+        return [ollama.embeddings(model="nomic-embed-text", prompt=text)['embedding'] for text in texts]
+    def __call__(self, text):
+        return ollama.embeddings(model="nomic-embed-text", prompt=text)['embedding']
 
 def get_vectorstore(url): 
     # scraping the url to text
