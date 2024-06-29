@@ -1,11 +1,18 @@
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_community.document_loaders import WebBaseLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 def get_vectorstore(url): 
+    # scraping the url to text
     web_loader = WebBaseLoader(url)
     document = web_loader.load()
-    return document
+
+    #splitting the text 
+    splitter = RecursiveCharacterTextSplitter()
+    chunks = splitter.split_documents(document)
+
+    return chunks 
 
 def get_response(prompt):
     return "Yes I agree"
@@ -40,7 +47,6 @@ def main():
             elif isinstance(message,HumanMessage): 
                 with st.chat_message("Human"): 
                     st.write(message.content)
-
 
         with st.sidebar: 
             st.write(docs)
